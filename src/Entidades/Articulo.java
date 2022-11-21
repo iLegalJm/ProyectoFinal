@@ -32,7 +32,6 @@ public class Articulo {
     }
     
     
-
     public Articulo(int id, int categoriaId, String categoriaNombre, String codigo, String nombre, double precioVenta, int stock, String descripcion, String imagen, boolean activo) {
         this.id = id;
         this.categoriaId = categoriaId;

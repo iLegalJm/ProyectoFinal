@@ -9,7 +9,9 @@ package Negocio;
  * @author CHATARA_II Cueva Zevallos
  */
 
+import Datos.ArticuloDAO;
 import Datos.IngresoDAO;
+import Entidades.Articulo;
 import Entidades.DetalleIngreso;
 import Entidades.Ingreso;
 import java.text.SimpleDateFormat;
@@ -18,13 +20,16 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class IngresoControl {
+    
     private final IngresoDAO DATOS;
+    private final ArticuloDAO DATOSARTI;
     private Ingreso objIngreso;
     private DefaultTableModel modeloTabla;
     public int registrosMostrados;
 
     public IngresoControl() {
         this.DATOS= new IngresoDAO();
+        this.DATOSARTI=new ArticuloDAO();
         this.objIngreso=new Ingreso();
         this.registrosMostrados=0;
     }
@@ -60,6 +65,33 @@ public class IngresoControl {
         return this.modeloTabla;        
     }
     
+    public DefaultTableModel listarDetalles(int id){
+        List<DetalleIngreso> lista= new ArrayList();
+        lista.addAll(DATOS.listarDetalle(id));
+        
+        String[] titulos={"Id", "Codigo","Articulo", "Cantidad","Precio","Sub Total"};
+        this.modeloTabla=new DefaultTableModel(null, titulos);   
+        
+        String estado;        
+        String[] registro = new String[6];        
+        
+        for (DetalleIngreso item:lista) {            
+            registro[0]=Integer.toString(item.getArticuloId());
+            registro[1]=item.getArticulocodigo();
+            registro[2]=item.getArticuloNombre();
+            registro[3]=Integer.toString(item.getCantidad());
+            registro[4]=Double.toString(item.getPrecio());
+            registro[5]=Double.toString(item.getSubTotal());
+            
+            this.modeloTabla.addRow(registro);            
+        }      
+        return this.modeloTabla;        
+    }
+    
+    public Articulo obtenerArticuloCodigoIngreso(String codigo){
+        Articulo objArti=DATOSARTI.obtenerArticuloCodigoIngreso(codigo);
+        return objArti;
+    }
     
     public String insertar(int personaId, String tipoComprobante, String serieComprobante, String numComprobante, double impuesto, double total, DefaultTableModel modeloDetalles){
         if (DATOS.existe(serieComprobante, numComprobante)) {

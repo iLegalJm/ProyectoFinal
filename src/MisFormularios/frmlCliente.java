@@ -90,13 +90,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
     
     private void mensajeOK(String mensaje){
         JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    
-    private void ColorFila(){
-        ColoFila objColor=new ColoFila();
-        tablaListado.setDefaultRenderer(Object.class, objColor);
-    }
+    }        
     
     
     /**
@@ -145,7 +139,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Proovedores");
+        setTitle("Clientes");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -263,7 +257,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(cboTotalPorPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -291,17 +285,15 @@ public class frmlCliente extends javax.swing.JInternalFrame {
                     .addComponent(btnDesactivar))
                 .addGap(18, 18, 18)
                 .addComponent(lblRegistros)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Listado", jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(120, 207, 192));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel3.setText("Nombre: (*)");
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -309,7 +301,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCancelar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -317,24 +309,37 @@ public class frmlCliente extends javax.swing.JInternalFrame {
             }
         });
 
+        txtId.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel5.setText("(*) Indica que el campo es obligatorio.");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel7.setText("Num. documento");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel8.setText("Telefono:");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel9.setText("Direccion:");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        txtNumDocumento.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        txtDireccion.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel13.setText("Tipo Documento:");
 
         cboTipodocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DNI", "Pasaporte", "RUC", " " }));
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel12.setText("Email: (*)");
+
+        txtTelefono.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        txtEmail.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -367,8 +372,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtDireccion, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                            .addComponent(txtNumDocumento)
-                            .addComponent(txtTelefono)))
+                            .addComponent(txtNumDocumento)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(52, 52, 52)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,8 +380,10 @@ public class frmlCliente extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(643, Short.MAX_VALUE))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(520, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +418,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
                     .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(27, 27, 27)
                 .addComponent(jLabel5)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(337, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Mantenimiento", jPanel2);
@@ -421,7 +427,7 @@ public class frmlCliente extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabGeneral)
+            .addComponent(tabGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, 1152, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

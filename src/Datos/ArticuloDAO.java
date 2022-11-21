@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package Datos;
 
 import Conexion.Conexion;
@@ -75,17 +72,17 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
             cx.desconectar();
         }
         return registros;
-    }
+    }               
     
     public Articulo obtenerArticuloCodigoIngreso(String codigo){
-        Articulo art=null;
+        Articulo objArti=null;
         try {
-            ps=cx.conectar().prepareStatement("Select id, codigo, nombre, precio_venta, stock from articulo where codio=?");
+            ps=cx.conectar().prepareStatement("Select id, codigo, nombre, precio_venta, stock from articulo where codigo=?");
             ps.setString(1, codigo);
             rs=ps.executeQuery();
             
-            if (rs.first()) {
-                art=new Articulo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
+            if (rs.next()) {
+                objArti=new Articulo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
             }
             ps.close();
             rs.close();
@@ -96,32 +93,31 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
             rs = null;
             cx.desconectar();
         }               
-        return art;
-    }            
-    
-    public Articulo obtenerArticuloCodigoCodigoIngreso(String codigo){
-        Articulo art=null;
-        try {
-            ps=cx.conectar().prepareStatement("Select id, codigo, nombre, precio_venta, stock from articulo where codio=?");
-            ps.setString(1, codigo);
-            rs=ps.executeQuery();
-            
-            if (rs.first()) {
-                art=new Articulo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
-            }
-            ps.close();
-            rs.close();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage());
-        } finally {
-            ps = null;
-            rs = null;
-            cx.desconectar();
-        }               
-        return art;
+        return objArti;
     }  
     
-
+    public Articulo obtenerArticuloCodigoVenta(String codigo){
+        Articulo objArti=null;
+        try {
+            ps=cx.conectar().prepareStatement("Select id, codigo, nombre, precio_venta, stock from articulo where codigo=? AND stock>0 AND activo=1");
+            ps.setString(1, codigo);
+            rs=ps.executeQuery();
+            
+            if (rs.next()) {
+                objArti=new Articulo(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4), rs.getInt(5));
+            }
+            ps.close();
+            rs.close();
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        } finally {
+            ps = null;
+            rs = null;
+            cx.desconectar();
+        }               
+        return objArti;
+    }
+    
     @Override
     public boolean insertar(Articulo obj) {
         resp=false;

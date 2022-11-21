@@ -62,7 +62,7 @@ public class IngresoDAO implements interfaceCrudIngreso<Ingreso, DetalleIngreso>
     public List<DetalleIngreso> listarDetalle(int id) {
         List<DetalleIngreso> registros=new ArrayList();
         try {
-            ps=cx.conectar().prepareStatement("SELECT a.id,a.codigo,a.nombre,d.cantidad,d.precio,(d.cantidad*precio) as sub_total FROM detalle_ingreso d INNER JOIN articulo a ON d.articulo_id=a.id WHERE d.ingreso_id=?");
+            ps=cx.conectar().prepareStatement("SELECT a.id,a.codigo,a.nombre,d.cantidad,d.precio,(d.cantidad*precio) as SubTotal FROM detalle_ingreso d INNER JOIN articulo a ON d.articulo_id=a.id WHERE d.ingreso_id=?");
             ps.setInt(1,id);
             rs=ps.executeQuery();
             while(rs.next()){
@@ -77,7 +77,7 @@ public class IngresoDAO implements interfaceCrudIngreso<Ingreso, DetalleIngreso>
             rs=null;
             cx.desconectar();
         }
-        return registros;
+        return registros;      
     }
 
     @Override
@@ -131,8 +131,7 @@ public class IngresoDAO implements interfaceCrudIngreso<Ingreso, DetalleIngreso>
                 Logger.getLogger(IngresoDAO.class.getName()).log(Level.SEVERE, null, ex);
             }
         } finally{
-             try {
-                
+             try {                
             if (rs!=null) rs.close();
             if (ps!=null) ps.close();
             if (conn!=null) conn.close();

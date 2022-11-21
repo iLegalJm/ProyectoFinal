@@ -5,7 +5,7 @@
 package MisFormularios;
 
 import Negocio.IngresoControl;
-import Negocio.PersonaControl;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -17,148 +17,194 @@ import javax.swing.table.DefaultTableModel;
 public class frmlIngreso extends javax.swing.JInternalFrame {
 
     /**
-     * Creates new 
+     * Creates new
      */
     private final IngresoControl CONTROL;
     private String accion;
-    
+
     private String nombreAnterior;
-    
-    private int totalPorPagina= 10;
-    private int numPaginas=1;
-    private boolean primeraCarga=true;
+
+    private int totalPorPagina = 10;
+    private int numPaginas = 1;
+    private boolean primeraCarga = true;
     private int totalRegistros;
-     
     public DefaultTableModel modeloDetalles;
+    //Creo un objeto JFrame para luego usarlo en el constructor al llamar a un dialogFrame
     public JFrame contenedor;
-    
+
     public frmlIngreso(JFrame frmlP) {
         initComponents();
-        this.contenedor=frmlP;
-        this.CONTROL=new IngresoControl();
+
+        this.contenedor = frmlP;
+        this.CONTROL = new IngresoControl();
         this.paginar();
         this.listar("", false);
-        this.primeraCarga=false;
-        tabGeneral.setEnabledAt(1, false);        
-        this.accion="guardar";
+        this.primeraCarga = false;
+        tabGeneral.setEnabledAt(1, false);
+        this.accion = "guardar";
         this.crearDetalles();
     }
-    
-    private void paginar(){
+
+    private void paginar() {
         int totalPaginas;
-        
-        this.totalRegistros=this.CONTROL.total();
-        this.totalPorPagina=Integer.parseInt((String)cboTotalPorPagina.getSelectedItem());
-        totalPaginas=(int)(Math.ceil((double)this.totalRegistros/this.totalPorPagina));
-        
-        if (totalPaginas==0) {
-            totalPaginas=1;
+
+        this.totalRegistros = this.CONTROL.total();
+        this.totalPorPagina = Integer.parseInt((String) cboTotalPorPagina.getSelectedItem());
+        totalPaginas = (int) (Math.ceil((double) this.totalRegistros / this.totalPorPagina));
+
+        if (totalPaginas == 0) {
+            totalPaginas = 1;
         }
         cboNumeroPagina.removeAllItems();
-        
+
         for (int i = 1; i <= totalPaginas; i++) {
             cboNumeroPagina.addItem(Integer.toString(i));
         }
-        
+
         cboNumeroPagina.setSelectedIndex(0);
     }
-        
-    
-    private void listar(String texto, boolean paginar){
-        this.totalPorPagina=Integer.parseInt((String)cboTotalPorPagina.getSelectedItem());
-        if ((String)cboNumeroPagina.getSelectedItem()!=null) {
-            this.numPaginas=Integer.parseInt((String)cboNumeroPagina.getSelectedItem());
+
+    private void listar(String texto, boolean paginar) {
+        this.totalPorPagina = Integer.parseInt((String) cboTotalPorPagina.getSelectedItem());
+        if ((String) cboNumeroPagina.getSelectedItem() != null) {
+            this.numPaginas = Integer.parseInt((String) cboNumeroPagina.getSelectedItem());
         }
-        
-        if (paginar==true) {
+
+        if (paginar == true) {
             tablaListado.setModel(this.CONTROL.listar(texto, this.totalPorPagina, this.numPaginas));
         } else {
             tablaListado.setModel(this.CONTROL.listar(texto, this.totalPorPagina, 1));
         }
-        
-        lblRegistros.setText("Mostrando " + this.CONTROL.totalMostrados()+ " registros de un total de " + this.CONTROL.total()+".");
+
+        lblRegistros.setText("Mostrando " + this.CONTROL.totalMostrados() + " registros de un total de " + this.CONTROL.total() + ".");
         this.ocultarColumnas();
     }
-    
-    private void ocultarColumnas(){
+
+    private void ocultarColumnas() {
         tablaListado.getColumnModel().getColumn(1).setMaxWidth(0); //oculto columa del id
         tablaListado.getColumnModel().getColumn(1).setMinWidth(0);
         tablaListado.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
-        tablaListado.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);  
-        
+        tablaListado.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
+
         tablaListado.getColumnModel().getColumn(3).setMaxWidth(0); //oculto persona id
         tablaListado.getColumnModel().getColumn(3).setMinWidth(0);
         tablaListado.getTableHeader().getColumnModel().getColumn(3).setMaxWidth(0);
-        tablaListado.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0); 
+        tablaListado.getTableHeader().getColumnModel().getColumn(3).setMinWidth(0);
     }
-    
-    private void crearDetalles(){
-        modeloDetalles=new DefaultTableModel(){
+
+    private void crearDetalles() {
+
+        modeloDetalles = new DefaultTableModel() {
             @Override
-            public boolean isCellEditable(int fila, int columna){
-                if (columna==3) {
-                    return columna==3;
+            public boolean isCellEditable(int fila, int columna) {
+                if (columna == 3) {
+                    return columna == 3;
                 }
-                if (columna==4) {
-                    return columna==4;
+                if (columna == 4) {
+                    return columna == 4;
                 }
-                return columna==3;
+                return columna == 3;
             }
-            
+
             @Override
-            public Object getValueAt(int row, int col){
-                if (col==5) {
+            public Object getValueAt(int row, int col) {
+                if (col == 5) {
                     Double cantD;
                     try {
-                        cantD=Double.parseDouble((String)getValueAt(row, 3));
+                        cantD = Double.parseDouble((String) getValueAt(row, 3));
                     } catch (Exception e) {
-                        cantD=1.0;
+                        cantD = 1.0;
                     }
-                    Double precioD=Double.parseDouble((String)getValueAt(row, 4));
-                    if (cantD!=null && precioD!=null) {
-                        return String.format("%, 2f", cantD*precioD);
-                    } else{
+                    Double precioD = Double.parseDouble((String) getValueAt(row, 4));
+                    if (cantD != null && precioD != null) {
+                        //format, % todo el entero.2f es dos decimales
+                        return String.format("%.2f", cantD * precioD);
+                    } else {
                         return 0;
                     }
                 }
                 return super.getValueAt(row, col);
             }
-            
+
             @Override
-            public void setValueAt(Object aValue, int row, int col){
+            public void setValueAt(Object aValue, int row, int col) {
                 super.setValueAt(aValue, row, col);
                 calcularTotales();
                 fireTableDataChanged();
             }
         };
-        
+
+        //Establezco los titulos
         modeloDetalles.setColumnIdentifiers(new Object[]{"id", "Codigo", " Articulo", "Cantidad", "Precio", "SubTotal"});
         tablaDetalles.setModel(modeloDetalles);
     }
-    private void calcularTotales(){
+
+    public void agregarDetalles(String id, String codigo, String nombre, String precio) {
+        String idTemporal;
+        boolean existeDetalle = false;
+
+        //voy a recorrer toda la tabla modelo detalles
+        for (int i = 0; i < this.modeloDetalles.getRowCount(); i++) {
+            idTemporal = String.valueOf(this.modeloDetalles.getValueAt(i, 0)); //convierto el objeto a String
+            if (idTemporal.equals(id)) {
+                existeDetalle = true;
+            }
+        }
+
+        if (existeDetalle) {
+            this.mensajeError("El articulo a sido agregado");
+        } else {
+            this.modeloDetalles.addRow(new Object[]{id, codigo, nombre, "1", precio, precio});
+            this.calcularTotales();
+        }
+    }
+
+    private void calcularTotales() {
+        double total = 0; //total del precio
+        double subTotal;
+        int items = modeloDetalles.getRowCount();
+
+        if (items == 0) {
+            total = 0;
+        } else {
+            for (int i = 0; i < items; i++) {
+                /*Obtengo el valor de mi fila i, y de columna 5, como es un objeto lo vuelvo string 
+                para luego volverlo un double*/
+                total = total + Double.parseDouble(String.valueOf(modeloDetalles.getValueAt(i, 5)));
+            }
+        }
+
+        subTotal = total / (1 + Double.parseDouble(txtImpuesto.getText()));
+
+        //le doy el formato de 2 decimales
+        txtTotal.setText(String.format("%.2f", total));
+        txtSubTotal.setText(String.format("%.2f", subTotal));
+        txtTotalImpuesto.setText(String.format("%.2f", total - subTotal));
+    }
+
+    private void limpiar() {        
+        txtIdProovedor.setText("");
+        txtSerieComprobante.setText("");
+        txtNumComprobante.setText("");
+        txtImpuesto.setText("0.18");
         
+        this.accion = "guardar";
+        
+        txtTotal.setText("0.00");
+        txtSubTotal.setText("0.00");
+        txtTotalImpuesto.setText("0.00");
+        this.crearDetalles();        
+        btnGuardar.setVisible(true);
     }
-    
-    private void limpiar(){
-                
-        this.accion="guardar";
-    }
-    
-    private void mensajeError(String mensaje){
+
+    private void mensajeError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
     }
-    
-    private void mensajeOK(String mensaje){
+
+    private void mensajeOK(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
     }
-    
-    
-    private void ColorFila(){
-        ColoFila objColor=new ColoFila();
-        tablaListado.setDefaultRenderer(Object.class, objColor);
-    }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -182,6 +228,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
         cboNumeroPagina = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         cboTotalPorPagina = new javax.swing.JComboBox<>();
+        btnVerDetalles = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
@@ -208,7 +255,8 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
         jLabel14 = new javax.swing.JLabel();
         txtSubTotal = new javax.swing.JTextField();
         txtTotal = new javax.swing.JTextField();
-        txtSubTotal2 = new javax.swing.JTextField();
+        txtTotalImpuesto = new javax.swing.JTextField();
+        btnQuitar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -286,23 +334,28 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
             }
         });
 
+        btnVerDetalles.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnVerDetalles.setText("Ver Detalles");
+        btnVerDetalles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerDetallesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(lblRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(316, 316, 316))
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 460, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnBuscar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnNuevo))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnAnular)
-                        .addGap(273, 273, 273)
+                        .addGap(252, 252, 252)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(cboNumeroPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -310,12 +363,19 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)
                         .addComponent(cboTotalPorPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(153, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(316, 316, 316))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel1)
+                            .addGap(27, 27, 27)
+                            .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnBuscar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnNuevo)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnVerDetalles))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -325,7 +385,8 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                     .addComponent(jLabel1)
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
-                    .addComponent(btnNuevo))
+                    .addComponent(btnNuevo)
+                    .addComponent(btnVerDetalles))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
@@ -337,12 +398,12 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                     .addComponent(btnAnular))
                 .addGap(18, 18, 18)
                 .addComponent(lblRegistros)
-                .addContainerGap(176, Short.MAX_VALUE))
+                .addContainerGap(182, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Listado", jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(120, 207, 192));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel3.setText("Proovedor: (*)");
@@ -370,6 +431,11 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
         txtCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtCodigoActionPerformed(evt);
+            }
+        });
+        txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCodigoKeyReleased(evt);
             }
         });
 
@@ -421,6 +487,11 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
         btnVerArticulos.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVerArticulos.setText("Ver");
+        btnVerArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerArticulosActionPerformed(evt);
+            }
+        });
 
         tablaDetalles.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -448,7 +519,15 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
         txtTotal.setEditable(false);
 
-        txtSubTotal2.setEditable(false);
+        txtTotalImpuesto.setEditable(false);
+
+        btnQuitar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnQuitar.setText("Quitar");
+        btnQuitar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQuitarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -456,7 +535,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 993, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -497,8 +576,13 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel4)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNumComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtNumComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnQuitar))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(383, 383, 383)
@@ -506,12 +590,12 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                             .addComponent(jLabel13)
                             .addComponent(jLabel12)
                             .addComponent(jLabel14))
-                        .addGap(23, 23, 23)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtTotalImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSubTotal2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(245, Short.MAX_VALUE))
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -538,23 +622,28 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnVerArticulos)
                     .addComponent(btnGuardar)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnCancelar)
+                    .addComponent(btnQuitar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
                     .addComponent(txtSubTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel12)
-                    .addComponent(txtSubTotal2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(77, 77, 77)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel12)
+                            .addComponent(txtTotalImpuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(txtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Mantenimiento", jPanel2);
@@ -575,7 +664,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-         this.listar(txtBuscar.getText(), false);
+        this.listar(txtBuscar.getText(), false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -583,19 +672,19 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
         tabGeneral.setEnabledAt(1, true);
         tabGeneral.setEnabledAt(0, false);
         tabGeneral.setSelectedIndex(1);
-        this.accion="guardar";
+        this.accion = "guardar";
         btnGuardar.setText("Guardar");
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnularActionPerformed
         // TODO add your handling code here:
         String resp;
-        if (tablaListado.getSelectedRowCount()==1) {
-            String id=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
-            String nombre=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 2));
-            
-            if (JOptionPane.showConfirmDialog(this, "Deseas desactivar el registro: " + nombre + "?", "Desactivar", JOptionPane.YES_NO_OPTION)==0){
-                resp=this.CONTROL.anular(Integer.parseInt(id));
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 2));
+
+            if (JOptionPane.showConfirmDialog(this, "Deseas desactivar el registro: " + nombre + "?", "Desactivar", JOptionPane.YES_NO_OPTION) == 0) {
+                resp = this.CONTROL.anular(Integer.parseInt(id));
                 if (resp.equals("OK")) {
                     this.mensajeOK("Registro desactivado");
                     this.listar("", false);
@@ -610,14 +699,15 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
     private void cboNumeroPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumeroPaginaActionPerformed
         // TODO add your handling code here:
-        if (this.primeraCarga=false) {
+        if (this.primeraCarga = false) {
             this.listar("", true);
-        } 
+        }
     }//GEN-LAST:event_cboNumeroPaginaActionPerformed
 
     private void cboTotalPorPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTotalPorPaginaActionPerformed
         // TODO add your handling code here:
         this.paginar();
+        this.listar("", true);
     }//GEN-LAST:event_cboTotalPorPaginaActionPerformed
 
     private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
@@ -633,59 +723,44 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        /*
-        if (txtNombre.getText().length()==0 || txtNombre.getText().length()>70) {
-            JOptionPane.showMessageDialog(this, "Debes ingresar un nombre que tenga menos de 20 caracteres, y es obligatorio", "Sistema", JOptionPane.WARNING_MESSAGE);
-            txtNombre.requestFocus();
-        }
+        // TODO add your handling code here:        
 
-        if (txtEmail.getText().length()==0 || txtEmail.getText().length()>50){
-            JOptionPane.showMessageDialog(this, "Debes ingresar un email no mayor a 50 caracteres.","Sistema", JOptionPane.WARNING_MESSAGE);
-            txtEmail.requestFocus();
-        }
-
-        if (txtTelefono.getText().length()>15){
-            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 9 caracteres.","Sistema", JOptionPane.WARNING_MESSAGE);
-            txtNumDocumento.requestFocus();
+        if (txtIdProovedor.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Selecciona un proovedor", "Sistema", JOptionPane.WARNING_MESSAGE);
+            btnSeleccionarProovedor.requestFocus();
+            //coloco el return para que se quede aqui la ejecucion del boton
             return;
         }
 
-        if (txtNumDocumento.getText().length()>20){
-            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 8 caracteres.","Sistema", JOptionPane.WARNING_MESSAGE);
-            txtNumDocumento.requestFocus();
+        if (txtSerieComprobante.getText().length() > 7) {
+            JOptionPane.showMessageDialog(this, "Debes ingresaruna serie no mayor a 7 caracteres", "Sistema", JOptionPane.WARNING_MESSAGE);
+            txtSerieComprobante.requestFocus();
             return;
         }
-        */
-        
-        String resp="";
-        if (this.accion.equals("editar")) {
-            //Editar
-            //resp=this.CONTROL.actualizar(Integer.parseInt(txtId.getText()), "Cliente", txtNombre.getText(), this.nombreAnterior, (String)cboTipodocumento.getSelectedItem(),txtNumDocumento.getText(), txtDireccion.getText(),txtTelefono.getText(),txtEmail.getText());
-            if(resp.equals("OK")){
-                this.mensajeOK("Actualizado correctamente");
-                this.limpiar();
-                this.listar("",false);
-                tabGeneral.setSelectedIndex(0);
-                tabGeneral.setEnabledAt(1, false);
-                tabGeneral.setEnabledAt(0, true);
-            }else{
-                this.mensajeError(resp);
-            }
+
+        if (txtNumComprobante.getText().length() > 10) {
+            JOptionPane.showMessageDialog(this, "Debes ingresaruna serie no mayor a 10 caracteres", "Sistema", JOptionPane.WARNING_MESSAGE);
+            txtSerieComprobante.requestFocus();
+            return;
+        }
+
+        if (modeloDetalles.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar articulos al detalle", "Sistema", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        String resp = "";
+                                                                                //para converitr un cboxmodel a texto usamos el cast del String
+        resp=this.CONTROL.insertar(Integer.parseInt(txtIdProovedor.getText()), (String)cboTipoComprobante.getSelectedItem(), txtSerieComprobante.getText(), txtNumComprobante.getText(), Double.parseDouble(txtImpuesto.getText()), Double.parseDouble(txtTotal.getText()), modeloDetalles);
+        if (resp.equals("OK")) {
+            this.mensajeOK("Registrado correctamente");
+            this.limpiar();
+            tabGeneral.setEnabledAt(0, true);
+            tabGeneral.setEnabledAt(1, false);
+            tabGeneral.setSelectedIndex(0);
+            this.listar("", false);
         } else {
-            //guardar
-            //resp=this.CONTROL.insertar("Cliente", txtNombre.getText(), (String)cboTipodocumento.getSelectedItem(), txtNumDocumento.getText(), txtDireccion.getText(), txtTelefono.getText(), txtEmail.getText());
-            if (resp.equals("OK")) {
-                this.mensajeOK("Registrado correctamente");
-                this.limpiar();
-                tabGeneral.setEnabledAt(0, true);
-                tabGeneral.setEnabledAt(1, false);
-                tabGeneral.setSelectedIndex(0);
-                this.listar("", false);
-            } else {
-                this.mensajeError(resp);
-            }
-
+            this.mensajeError(resp);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -707,9 +782,74 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
     private void btnSeleccionarProovedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarProovedorActionPerformed
         // TODO add your handling code here:
-        frmlSeleccionarProovedorCompra frml=new frmlSeleccionarProovedorCompra(contenedor, this, true);
+        frmlSeleccionarProovedorCompra frml = new frmlSeleccionarProovedorCompra(contenedor, this, true);
         frml.toFront();//la ventana se me muestra alfrente
     }//GEN-LAST:event_btnSeleccionarProovedorActionPerformed
+
+    private void btnVerArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerArticulosActionPerformed
+        // TODO add your handling code here:
+        frmlSeleccionarArticuloCompra frml = new frmlSeleccionarArticuloCompra(contenedor, this, true);
+        frml.toFront();
+
+    }//GEN-LAST:event_btnVerArticulosActionPerformed
+
+    private void txtCodigoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyReleased
+        // TODO add your handling code here:
+        if (txtCodigo.getText().length() > 0) {
+            //evt es el key event, entonces le digo q si es igual a un enter
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+                Entidades.Articulo objArti;
+                objArti = this.CONTROL.obtenerArticuloCodigoIngreso(txtCodigo.getText());
+                if (objArti == null) {
+                    this.mensajeError("No existe un articulo con ese codigo");
+                } else {
+                    this.agregarDetalles(Integer.toString(objArti.getId()), objArti.getCodigo(), objArti.getNombre(), Double.toString(objArti.getPrecioVenta()));
+                }
+            }
+        } else {
+            this.mensajeError("Ingrese el codigo a buscar");
+        }
+    }//GEN-LAST:event_txtCodigoKeyReleased
+
+    private void btnQuitarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuitarActionPerformed
+        // TODO add your handling code here:
+        if (tablaDetalles.getSelectedRowCount() == 1) {
+            this.modeloDetalles.removeRow(tablaDetalles.getSelectedRow());
+            this.calcularTotales();
+        } else {
+            this.mensajeError("Seleecionar detalle a quitar");
+        }
+    }//GEN-LAST:event_btnQuitarActionPerformed
+
+    private void btnVerDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerDetallesActionPerformed
+        if(tablaListado.getSelectedRowCount()==1){
+            String id=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String idProovedor=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 3));
+            String nombreProovedor=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
+            String tipoComprobante=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 5));
+            String serie=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 6));
+            String numero=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 7));
+            String impuesto=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 9));
+            
+            txtIdProovedor.setText(idProovedor);
+            txtNombreProovedor.setText(nombreProovedor);
+            cboTipoComprobante.setSelectedItem(tipoComprobante);
+            txtSerieComprobante.setText(serie);
+            txtNumComprobante.setText(numero);
+            txtImpuesto.setText(impuesto);
+            
+            this.modeloDetalles=CONTROL.listarDetalles(Integer.parseInt(id));
+            tablaDetalles.setModel(modeloDetalles);
+            this.calcularTotales();
+            
+            tabGeneral.setEnabledAt(1, true);
+            tabGeneral.setEnabledAt(0, false);
+            tabGeneral.setSelectedIndex(1);
+            btnGuardar.setVisible(false);
+        } else{
+            this.mensajeError("Seleccione el ingreso a mostrar");
+        }
+    }//GEN-LAST:event_btnVerDetallesActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -718,8 +858,10 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnQuitar;
     private javax.swing.JButton btnSeleccionarProovedor;
     private javax.swing.JButton btnVerArticulos;
+    private javax.swing.JButton btnVerDetalles;
     private javax.swing.JComboBox<String> cboNumeroPagina;
     private javax.swing.JComboBox<String> cboTipoComprobante;
     private javax.swing.JComboBox<String> cboTotalPorPagina;
@@ -752,7 +894,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtNumComprobante;
     private javax.swing.JTextField txtSerieComprobante;
     private javax.swing.JTextField txtSubTotal;
-    private javax.swing.JTextField txtSubTotal2;
     private javax.swing.JTextField txtTotal;
+    private javax.swing.JTextField txtTotalImpuesto;
     // End of variables declaration//GEN-END:variables
 }

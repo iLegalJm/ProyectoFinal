@@ -4,22 +4,9 @@
  */
 package MisFormularios;
 
-import Entidades.Categoria;
 import Entidades.Rol;
-import Negocio.ArticuloControl;
-import Negocio.CategoriaControl;
 import Negocio.UsuarioControl;
-import java.awt.Image;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -123,14 +110,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
     
     private void mensajeOK(String mensaje){
         JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
-    }
-    
-    
-    private void ColorFila(){
-        ColoFila objColor=new ColoFila();
-        tablaListado.setDefaultRenderer(Object.class, objColor);
-    }
-    
+    }               
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -182,20 +162,21 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
         setClosable(true);
         setIconifiable(true);
         setMaximizable(true);
-        setTitle("Articulo");
+        setTitle("Usuarios");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel1.setText("Nombre:");
 
+        txtBuscar.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtBuscarActionPerformed(evt);
             }
         });
 
-        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnBuscar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,7 +184,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        btnNuevo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNuevo.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnNuevo.setText("Nuevo");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,7 +192,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        btnEditar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnEditar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnEditar.setText("Modificar");
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -233,7 +214,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(tablaListado);
 
-        btnDesactivar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnDesactivar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnDesactivar.setText("Desactivar");
         btnDesactivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -241,7 +222,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        btnActivar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnActivar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnActivar.setText("Activar");
         btnActivar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -249,21 +230,23 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        lblRegistros.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblRegistros.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         lblRegistros.setText("Registros");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel10.setText("#Pagina:");
 
+        cboNumeroPagina.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
         cboNumeroPagina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboNumeroPaginaActionPerformed(evt);
             }
         });
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel11.setText("Total de registros por paginas:");
 
+        cboTotalPorPagina.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
         cboTotalPorPagina.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "10", "20", "50", "100", "200", "400" }));
         cboTotalPorPagina.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -300,7 +283,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(cboTotalPorPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(153, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -328,20 +311,20 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
                     .addComponent(btnDesactivar))
                 .addGap(18, 18, 18)
                 .addComponent(lblRegistros)
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Listado", jPanel1);
 
-        jPanel2.setBackground(new java.awt.Color(120, 207, 192));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel3.setText("Nombre: (*)");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel4.setText("Clave: (*)");
 
-        btnGuardar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGuardar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -349,7 +332,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCancelar.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         btnCancelar.setText("Cancelar");
         btnCancelar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -357,26 +340,37 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
+        txtId.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel5.setText("(*) Indica que el campo es obligatorio.");
 
+        cboRol.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
         cboRol.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboRolActionPerformed(evt);
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel6.setText("Rol: (*)");
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        txtNombre.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel7.setText("Num. Documento:");
 
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel8.setText("Telefono:");
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel9.setText("Dirección:");
 
+        txtNumDocumento.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        txtTelefono.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        cboTipoDocumento.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
         cboTipoDocumento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DNI", "Carnet", " " }));
         cboTipoDocumento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -384,11 +378,17 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel13.setText("Tipo Documento:");
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel12.setText("Email: (*)");
+
+        txtDireccion.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        txtEmail.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
+
+        txtClave.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -399,9 +399,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel7)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel3)))
+                            .addComponent(jLabel3))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addContainerGap()
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -435,7 +433,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtClave, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(txtEmail, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)))
-                        .addContainerGap(688, Short.MAX_VALUE))))
+                        .addContainerGap(567, Short.MAX_VALUE))))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(116, 116, 116)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -484,7 +482,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
                     .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(35, 35, 35)
                 .addComponent(jLabel5)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
 
         tabGeneral.addTab("Mantenimiento", jPanel2);
@@ -493,7 +491,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tabGeneral)
+            .addComponent(tabGeneral, javax.swing.GroupLayout.DEFAULT_SIZE, 1152, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
