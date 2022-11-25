@@ -6,7 +6,7 @@ package Negocio;
 
 /**
  *
- * @author CHATARA_II Cueva Zevallos
+ * @author CHATARA_II 
  */
 
 import Datos.CategoriaDAO;

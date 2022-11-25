@@ -6,17 +6,32 @@ package Negocio;
 
 /**
  *
- * @author CHATARA_II Cueva Zevallos
+ * @author CHATARA_II
  */
 
+import Conexion.Conexion;
 import Datos.ArticuloDAO;
 import Datos.CategoriaDAO;
 import Entidades.Articulo;
 import Entidades.Categoria;
+import java.awt.HeadlessException;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class ArticuloControl {
     private final ArticuloDAO DATOS;
@@ -186,4 +201,56 @@ public class ArticuloControl {
     public int totalMostrados(){
         return this.registrosMostrados;
     }
+    
+    //Metodo para traer mi reporte
+    public void reporteArticulos(){
+        Map p=new HashMap();
+        JasperReport report;
+        JasperPrint print;
+        
+        Conexion cnn=Conexion.getInstancia();
+        
+        try {
+            report=JasperCompileManager.compileReport(new File("").getAbsolutePath()+
+                    "/src/Reportes/rptArticulo.jasper");
+            print=JasperFillManager.fillReport(report, p,cnn.conectar());
+            JasperViewer view=new JasperViewer(print,false);
+            view.setTitle("Reporte de Artículos");
+            view.setVisible(true);
+        } catch (JRException e) {
+            e.getMessage();
+        }
+    }
+    
+    public void reporteArticulosBarras(){
+        Map p=new HashMap();
+        JasperReport report;
+        JasperPrint print=null;        
+        Conexion cnn=Conexion.getInstancia();        
+        try {
+            report = (JasperReport) JRLoader.loadObject(getClass().getResource("/Reportes/reporteArticuloBarra.jasper"));
+            print=JasperFillManager.fillReport(report, p, cnn.conectar());
+            if (print!=null) {
+                JasperViewer view=new JasperViewer(print,false);
+                view.setTitle("Reporte de Barras de Artículos");
+                view.setVisible(true);
+            }
+        } catch (HeadlessException | NumberFormatException | JRException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage());
+        }
+    }
+    
+    public void ejecutarReporte() {
+    try {
+        // asumiendo que archivo es algo como reporte.jasper
+        // MiClase es la clase donde se encuentra este método
+        Conexion cnn=Conexion.getInstancia();
+        InputStream reporteInputStream = ArticuloControl.class.getResourceAsStream("/src/Reportes/rptArticulo.jasper");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(reporteInputStream, null, cnn.conectar());
+        JasperViewer jView = new JasperViewer(jasperPrint, false);
+        jView.setVisible(true);
+    } catch(JRException e) {
+        JOptionPane.showMessageDialog(null, e.getMessage());
+    }
+}
 }

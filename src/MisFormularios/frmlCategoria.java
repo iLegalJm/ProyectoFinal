@@ -66,16 +66,6 @@ public class frmlCategoria extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         tabGeneral = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        txtDescripcion = new javax.swing.JTextArea();
-        jLabel4 = new javax.swing.JLabel();
-        btnGuardar = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
-        txtId = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         txtBuscar = new javax.swing.JTextField();
@@ -87,6 +77,16 @@ public class frmlCategoria extends javax.swing.JInternalFrame {
         btnDesactivar = new javax.swing.JButton();
         btnActivar = new javax.swing.JButton();
         lblRegistros = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        txtDescripcion = new javax.swing.JTextArea();
+        jLabel4 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        txtId = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setClosable(true);
         setIconifiable(true);
@@ -94,6 +94,87 @@ public class frmlCategoria extends javax.swing.JInternalFrame {
         setTitle("Categoria");
 
         tabGeneral.setFont(new java.awt.Font("Roboto Medium", 3, 14)); // NOI18N
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1166, 700));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        jLabel1.setText("Nombre:");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
+
+        txtBuscar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        txtBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0)));
+        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 380, -1));
+
+        btnBuscar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnBuscar.setText("Buscar");
+        btnBuscar.setBorderPainted(false);
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 90, 20));
+
+        btnNuevo.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 90, 20));
+
+        btnEditar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnEditar.setText("Modificar");
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 110, 20));
+
+        tablaListado.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
+        tablaListado.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        tablaListado.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jScrollPane1.setViewportView(tablaListado);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 860, 304));
+
+        btnDesactivar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnDesactivar.setText("Desactivar");
+        btnDesactivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesactivarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnDesactivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, 120, 30));
+
+        btnActivar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
+        btnActivar.setText("Activar");
+        btnActivar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActivarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnActivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 110, 30));
+
+        lblRegistros.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        lblRegistros.setText("Registros");
+        jPanel1.add(lblRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 380, 290, -1));
+
+        tabGeneral.addTab("Listado", jPanel1);
 
         jPanel2.setPreferredSize(new java.awt.Dimension(1166, 700));
 
@@ -180,87 +261,6 @@ public class frmlCategoria extends javax.swing.JInternalFrame {
         );
 
         tabGeneral.addTab("Mantenimiento", jPanel2);
-
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(1166, 700));
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel1.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        jLabel1.setText("Nombre:");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, -1, -1));
-
-        txtBuscar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        txtBuscar.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(0, 0, 0), new java.awt.Color(0, 0, 0)));
-        jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 380, -1));
-
-        btnBuscar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.setBorderPainted(false);
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, 90, 20));
-
-        btnNuevo.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        btnNuevo.setText("Nuevo");
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 20, 90, 20));
-
-        btnEditar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        btnEditar.setText("Modificar");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 20, 110, 20));
-
-        tablaListado.setFont(new java.awt.Font("Roboto Light", 0, 14)); // NOI18N
-        tablaListado.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        tablaListado.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jScrollPane1.setViewportView(tablaListado);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 860, 304));
-
-        btnDesactivar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        btnDesactivar.setText("Desactivar");
-        btnDesactivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDesactivarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnDesactivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 370, 120, 30));
-
-        btnActivar.setFont(new java.awt.Font("Roboto Black", 0, 14)); // NOI18N
-        btnActivar.setText("Activar");
-        btnActivar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActivarActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnActivar, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 110, 30));
-
-        lblRegistros.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        lblRegistros.setText("Registros");
-        jPanel1.add(lblRegistros, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 380, 290, -1));
-
-        tabGeneral.addTab("Listado", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

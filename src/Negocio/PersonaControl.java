@@ -1,10 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package Negocio;
 
+package Negocio;
 
 import Datos.PersonaDAO;
 import Entidades.Persona;
@@ -12,10 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author JcarlosAd7
- */
 public class PersonaControl {
     private final PersonaDAO DATOS;
     private Persona obj;

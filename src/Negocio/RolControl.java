@@ -1,7 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+
+/**
+ *
+ * @author CHATARA_II
  */
+
 package Negocio;
 
 import Datos.RolDAO;
@@ -10,10 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author CHATARA_II
- */
 public class RolControl {
     private final RolDAO DATOS;
     private Rol objRol;

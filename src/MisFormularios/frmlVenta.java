@@ -153,7 +153,8 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         tablaDetalles.setModel(modeloDetalles);
     }
 
-    public void agregarDetalles(String id, String codigo, String nombre, String stock, String precio, String descuento) {
+    public void agregarDetalles(String id, String codigo, String nombre, String stock,
+                                String precio, String descuento) {
         String idTemporal;
         boolean existeDetalle = false;
 
@@ -168,7 +169,8 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         if (existeDetalle) {
             this.mensajeError("El articulo a sido agregado");
         } else {                              //Aca es doble precio porque al inicio ese es el sub total
-            this.modeloDetalles.addRow(new Object[]{id, codigo, nombre, stock, "1", precio, descuento, precio});
+            this.modeloDetalles.addRow(new Object[]{id, codigo, nombre, stock, "1", precio, 
+                                        descuento, precio});
             this.calcularTotales();
         }
     }
@@ -786,7 +788,10 @@ public class frmlVenta extends javax.swing.JInternalFrame {
 
         String resp = "";
                                                                                 //para converitr un cboxmodel a texto usamos el cast del String
-        resp=this.CONTROL.insertar(Integer.parseInt(txtIdCliente.getText()), (String)cboTipoComprobante.getSelectedItem(), txtSerieComprobante.getText(), txtNumComprobante.getText(), Double.parseDouble(txtImpuesto.getText()), Double.parseDouble(txtTotal.getText()), modeloDetalles);
+        resp=this.CONTROL.insertar(Integer.parseInt(txtIdCliente.getText()), 
+                (String)cboTipoComprobante.getSelectedItem(), txtSerieComprobante.getText(), 
+                txtNumComprobante.getText(), Double.parseDouble(txtImpuesto.getText()), 
+                Double.parseDouble(txtTotal.getText()), modeloDetalles);
         if (resp.equals("OK")) {
             this.mensajeOK("Registrado correctamente");
             this.limpiar();

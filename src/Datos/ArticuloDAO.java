@@ -4,7 +4,6 @@ package Datos;
 import Conexion.Conexion;
 import Entidades.Articulo;
 import datosInterfaces.interfaceCrudPaginado;
-import datosInterfaces.interfaceCrudSimple;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

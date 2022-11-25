@@ -1,11 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+
+
+/**
+ *
+ * @author CHATARA_II
  */
+
 package Datos;
 
 import Conexion.Conexion;
-import Entidades.Categoria;
 import Entidades.Rol;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,10 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author CHATARA_II
- */
 public class RolDAO {
     
     private final Conexion cx;

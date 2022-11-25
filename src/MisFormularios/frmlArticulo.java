@@ -1,12 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
- */
+
 package MisFormularios;
 
 import Entidades.Categoria;
 import Negocio.ArticuloControl;
-import Negocio.CategoriaControl;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -34,88 +30,87 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
     private final ArticuloControl CONTROL;
     private String accion;
     private String nombreAnt;
-    
+
     private String rutaOrigen;
     private String rutaDestino;
-    private final String DIRECTORIO="src/Files/Articulos/";
-    private String imagen="";
+    private final String DIRECTORIO = "src/Files/Articulos/";
+    private String imagen = "";
     private String imagenAnterior;
-    
-    private int totalPorPagina= 10;
-    private int numPaginas=1;
-    private boolean primeraCarga=true;
+
+    private int totalPorPagina = 10;
+    private int numPaginas = 1;
+    private boolean primeraCarga = true;
     private int totalRegistros;
-       
-    
+
     public frmlArticulo() {
         initComponents();
-        this.CONTROL=new ArticuloControl();
+        this.CONTROL = new ArticuloControl();
         this.paginar();
         this.listar("", false);
-        this.primeraCarga=false;
-        tabGeneral.setEnabledAt(1, false);        
-        this.accion="guardar";
+        this.primeraCarga = false;
+        tabGeneral.setEnabledAt(1, false);
+        this.accion = "guardar";
         txtId.setVisible(false);
         this.cargarCategorias();
     }
-    
-    private void paginar(){
+
+    private void paginar() {
         int totalPaginas;
-        
-        this.totalRegistros=this.CONTROL.total();
-        this.totalPorPagina=Integer.parseInt((String)cboTotalPorPagina.getSelectedItem());
-        totalPaginas=(int)(Math.ceil((double)this.totalRegistros/this.totalPorPagina));
-        
-        if (totalPaginas==0) {
-            totalPaginas=1;
+
+        this.totalRegistros = this.CONTROL.total();
+        this.totalPorPagina = Integer.parseInt((String) cboTotalPorPagina.getSelectedItem());
+        totalPaginas = (int) (Math.ceil((double) this.totalRegistros / this.totalPorPagina));
+
+        if (totalPaginas == 0) {
+            totalPaginas = 1;
         }
         cboNumeroPagina.removeAllItems();
-        
+
         for (int i = 1; i <= totalPaginas; i++) {
             cboNumeroPagina.addItem(Integer.toString(i));
         }
-        
+
         cboNumeroPagina.setSelectedIndex(0);
     }
-    
-    private void ocultarColumnas(){
+
+    private void ocultarColumnas() {
         tablaListado.getColumnModel().getColumn(1).setMaxWidth(0);
         tablaListado.getColumnModel().getColumn(1).setMinWidth(0);
         tablaListado.getTableHeader().getColumnModel().getColumn(1).setMaxWidth(0);
-        tablaListado.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);                                
+        tablaListado.getTableHeader().getColumnModel().getColumn(1).setMinWidth(0);
     }
-    
-    private void listar(String texto, boolean paginar){
-        this.totalPorPagina=Integer.parseInt((String)cboTotalPorPagina.getSelectedItem());
-        if ((String)cboNumeroPagina.getSelectedItem()!=null) {
-            this.numPaginas=Integer.parseInt((String)cboNumeroPagina.getSelectedItem());
+
+    private void listar(String texto, boolean paginar) {
+        this.totalPorPagina = Integer.parseInt((String) cboTotalPorPagina.getSelectedItem());
+        if ((String) cboNumeroPagina.getSelectedItem() != null) {
+            this.numPaginas = Integer.parseInt((String) cboNumeroPagina.getSelectedItem());
         }
-        
-        if (paginar==true) {
+
+        if (paginar == true) {
             tablaListado.setModel(this.CONTROL.listar(texto, this.totalPorPagina, this.numPaginas));
         } else {
             tablaListado.setModel(this.CONTROL.listar(texto, this.totalPorPagina, 1));
         }
-        
-        lblRegistros.setText("Mostrando " + this.CONTROL.totalMostrados()+ " registros de un total de " + this.CONTROL.total()+".");
+
+        lblRegistros.setText("Mostrando " + this.CONTROL.totalMostrados() + " registros de un total de " + this.CONTROL.total() + ".");
         this.ocultarColumnas();
     }
-    
-    private void cargarCategorias(){
-        DefaultComboBoxModel items=this.CONTROL.seleccionar();
-        cboCategoria.setModel(items);        
+
+    private void cargarCategorias() {
+        DefaultComboBoxModel items = this.CONTROL.seleccionar();
+        cboCategoria.setModel(items);
     }
-    
-    private void subirImagenes(){
-        File origen=new File(this.rutaOrigen);
-        File destino=new File(this.rutaDestino);
-        
+
+    private void subirImagenes() {
+        File origen = new File(this.rutaOrigen);
+        File destino = new File(this.rutaDestino);
+
         try {
-            InputStream input=new FileInputStream(origen);
-            OutputStream output=new FileOutputStream(destino);
-            byte[] buf=new byte[1024];
+            InputStream input = new FileInputStream(origen);
+            OutputStream output = new FileOutputStream(destino);
+            byte[] buf = new byte[1024];
             int largo;
-            while ((largo = input.read(buf))>0) {                
+            while ((largo = input.read(buf)) > 0) {
                 output.write(buf, 0, largo);
             }
             input.close();
@@ -123,24 +118,24 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
-    
-    private void limpiar(){
+
+    private void limpiar() {
         txtNombre.setText("");
         txtDescripcion.setText("");
         txtCodigo.setText("");
         txtPrecioVenta.setText("");
         txtStock.setText("");
-        this.accion="guardar";
+        this.accion = "guardar";
     }
-    
-    private void mensajeError(String mensaje){
+
+    private void mensajeError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
     }
-    
-    private void mensajeOK(String mensaje){
+
+    private void mensajeOK(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Sistema", JOptionPane.ERROR_MESSAGE);
-    }  
-    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -166,6 +161,8 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         cboNumeroPagina = new javax.swing.JComboBox<>();
         jLabel11 = new javax.swing.JLabel();
         cboTotalPorPagina = new javax.swing.JComboBox<>();
+        btnReporteArticulos = new javax.swing.JButton();
+        btnReporteArticulos1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -282,6 +279,22 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
             }
         });
 
+        btnReporteArticulos.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        btnReporteArticulos.setText("Reporte Articulos");
+        btnReporteArticulos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteArticulosActionPerformed(evt);
+            }
+        });
+
+        btnReporteArticulos1.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
+        btnReporteArticulos1.setText("Barcode");
+        btnReporteArticulos1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteArticulos1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -297,25 +310,29 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnNuevo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnEditar))
+                        .addComponent(btnEditar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReporteArticulos)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnReporteArticulos1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnActivar)
                         .addGap(18, 18, 18)
                         .addComponent(btnDesactivar)
-                        .addGap(172, 172, 172)
+                        .addGap(114, 114, 114)
                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(32, 32, 32)
                         .addComponent(cboNumeroPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(58, 58, 58)
+                        .addGap(33, 33, 33)
                         .addComponent(jLabel11)
                         .addGap(18, 18, 18)
                         .addComponent(cboTotalPorPagina, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(lblRegistros, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(316, 316, 316))
+                .addGap(389, 389, 389))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +343,9 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
                     .addComponent(btnNuevo)
-                    .addComponent(btnEditar))
+                    .addComponent(btnEditar)
+                    .addComponent(btnReporteArticulos)
+                    .addComponent(btnReporteArticulos1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
@@ -477,7 +496,7 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
                                     .addComponent(lblImagen, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(btnAgregarImagen)))
-                        .addContainerGap(580, Short.MAX_VALUE))))
+                        .addContainerGap(593, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -537,7 +556,7 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-         this.listar(txtBuscar.getText(), false);
+        this.listar(txtBuscar.getText(), false);
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
@@ -545,7 +564,7 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         tabGeneral.setEnabledAt(1, true);
         tabGeneral.setEnabledAt(0, false);
         tabGeneral.setSelectedIndex(1);
-        this.accion="guardar";
+        this.accion = "guardar";
         btnGuardar.setText("Guardar");
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -559,56 +578,56 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if (txtNombre.getText().length()==0 || txtNombre.getText().length()>20) {
+        if (txtNombre.getText().length() == 0 || txtNombre.getText().length() > 20) {
             JOptionPane.showMessageDialog(this, "Debes ingresar un nombre que tenga menos de 20 caracteres, y es obligatorio", "Sistema", JOptionPane.WARNING_MESSAGE);
             txtNombre.requestFocus();
-        } 
-        
-        if (txtDescripcion.getText().length()>255){
-            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 255 caracteres.","Sistema", JOptionPane.WARNING_MESSAGE);
+        }
+
+        if (txtDescripcion.getText().length() > 255) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 255 caracteres.", "Sistema", JOptionPane.WARNING_MESSAGE);
             txtDescripcion.requestFocus();
         }
-        
-        if (txtStock.getText().length()==0){
-            JOptionPane.showMessageDialog(this, "Debes ingresar un stock del artículo, es obligatorio.","Sistema", JOptionPane.WARNING_MESSAGE);
+
+        if (txtStock.getText().length() == 0) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar un stock del artículo, es obligatorio.", "Sistema", JOptionPane.WARNING_MESSAGE);
             txtStock.requestFocus();
             return;
         }
-        
-        if (txtDescripcion.getText().length()>255){
-            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 255 caracteres.","Sistema", JOptionPane.WARNING_MESSAGE);
+
+        if (txtDescripcion.getText().length() > 255) {
+            JOptionPane.showMessageDialog(this, "Debes ingresar una descripción no mayor a 255 caracteres.", "Sistema", JOptionPane.WARNING_MESSAGE);
             txtDescripcion.requestFocus();
             return;
         }
-        
-        String resp;        
+
+        String resp;
         if (this.accion.equals("editar")) {
             //Editar
-            String imagenActual="";
+            String imagenActual = "";
             if (this.imagen.equals("")) {
-                imagenActual=this.imagenAnterior;
+                imagenActual = this.imagenAnterior;
             } else {
-                imagenActual=this.imagen;
+                imagenActual = this.imagen;
             }
-            Categoria seleccionado=(Categoria)cboCategoria.getSelectedItem();
-            resp=this.CONTROL.actualizar(Integer.parseInt(txtId.getText()),seleccionado.getId(),txtCodigo.getText(),txtNombre.getText(),this.nombreAnt,Double.parseDouble(txtPrecioVenta.getText()),Integer.parseInt(txtStock.getText()), txtDescripcion.getText(),imagenActual);
+            Categoria seleccionado = (Categoria) cboCategoria.getSelectedItem();
+            resp = this.CONTROL.actualizar(Integer.parseInt(txtId.getText()), seleccionado.getId(), txtCodigo.getText(), txtNombre.getText(), this.nombreAnt, Double.parseDouble(txtPrecioVenta.getText()), Integer.parseInt(txtStock.getText()), txtDescripcion.getText(), imagenActual);
             if (resp.equals("OK")) {
                 if (!this.imagen.equals("")) {
                     this.subirImagenes();
                 }
                 this.mensajeOK("Actualizado correctamente");
                 this.limpiar();
-                this.listar("", false); 
+                this.listar("", false);
                 tabGeneral.setSelectedIndex(0);
                 tabGeneral.setEnabledAt(1, false);
                 tabGeneral.setEnabledAt(0, true);
             } else {
                 this.mensajeError(resp);
-            }                        
+            }
         } else {
             //guardar            
-            Categoria seleccionado = (Categoria)cboCategoria.getSelectedItem();
-            resp=this.CONTROL.insertar(seleccionado.getId(),txtCodigo.getText(),txtNombre.getText(),Double.parseDouble(txtPrecioVenta.getText()),Integer.parseInt(txtStock.getText()), txtDescripcion.getText(),this.imagen);
+            Categoria seleccionado = (Categoria) cboCategoria.getSelectedItem();
+            resp = this.CONTROL.insertar(seleccionado.getId(), txtCodigo.getText(), txtNombre.getText(), Double.parseDouble(txtPrecioVenta.getText()), Integer.parseInt(txtStock.getText()), txtDescripcion.getText(), this.imagen);
             if (resp.equals("OK")) {
                 if (!this.imagen.equals("")) {
                     this.subirImagenes();
@@ -617,47 +636,47 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
                 this.limpiar();
                 tabGeneral.setEnabledAt(0, true);
                 tabGeneral.setEnabledAt(1, false);
-                tabGeneral.setSelectedIndex(0);                
-                this.listar("", false);  
+                tabGeneral.setSelectedIndex(0);
+                this.listar("", false);
             } else {
                 this.mensajeError(resp);
             }
-            
-        }              
+
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-        if (tablaListado.getSelectedRowCount()==1) {
-            String id= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),0));
-            int categoriaId=Integer.parseInt(String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),1)));
-            String categoriaNombre=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),2));
-            String codigo=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),3));
-            String nombre= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),4));
-            this.nombreAnt= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),4));
-            String precioVenta= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),5));
-            String stock= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),6));
-            String descripcion= String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),7));
-            this.imagenAnterior=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(),8));
-            
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            int categoriaId = Integer.parseInt(String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1)));
+            String categoriaNombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 2));
+            String codigo = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 3));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
+            this.nombreAnt = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
+            String precioVenta = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 5));
+            String stock = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 6));
+            String descripcion = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 7));
+            this.imagenAnterior = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 8));
+
             txtId.setText(id);
-            Categoria seleccionado=new Categoria(categoriaId,categoriaNombre);
+            Categoria seleccionado = new Categoria(categoriaId, categoriaNombre);
             cboCategoria.setSelectedItem(seleccionado);
             txtCodigo.setText(codigo);
             txtNombre.setText(nombre);
             txtPrecioVenta.setText(precioVenta);
-            txtStock.setText(stock);            
+            txtStock.setText(stock);
             txtDescripcion.setText(descripcion);
-            
-            ImageIcon image=new ImageIcon(this.rutaOrigen);
-            Icon Icono=new ImageIcon(image.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_DEFAULT));
+
+            ImageIcon image = new ImageIcon(this.rutaOrigen);
+            Icon Icono = new ImageIcon(image.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_DEFAULT));
             lblImagen.setIcon(Icono);
             lblImagen.repaint();
-            
+
             tabGeneral.setEnabledAt(0, false);
             tabGeneral.setEnabledAt(1, true);
             tabGeneral.setSelectedIndex(1);
-            this.accion="editar";
+            this.accion = "editar";
             btnGuardar.setText("Editar");
         } else {
             this.mensajeError("Seleccione 1 registro por favor");
@@ -667,12 +686,12 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
     private void btnActivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActivarActionPerformed
         // TODO add your handling code here:
         String resp;
-        if (tablaListado.getSelectedRowCount()==1) {
-            String id=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
-            String nombre=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
-            
-            if (JOptionPane.showConfirmDialog(this, "Deseas activar el registro: " + nombre + "?", "Activar", JOptionPane.YES_NO_OPTION)==0){
-                resp=this.CONTROL.activar(Integer.parseInt(id));
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 1));
+
+            if (JOptionPane.showConfirmDialog(this, "Deseas activar el registro: " + nombre + "?", "Activar", JOptionPane.YES_NO_OPTION) == 0) {
+                resp = this.CONTROL.activar(Integer.parseInt(id));
                 if (resp.equals("OK")) {
                     this.mensajeOK("Registro activado");
                     this.listar("", false);
@@ -688,12 +707,12 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
     private void btnDesactivarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesactivarActionPerformed
         // TODO add your handling code here:
         String resp;
-        if (tablaListado.getSelectedRowCount()==1) {
-            String id=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
-            String nombre=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
-            
-            if (JOptionPane.showConfirmDialog(this, "Deseas desactivar el registro: " + nombre + "?", "Desactivar", JOptionPane.YES_NO_OPTION)==0){
-                resp=this.CONTROL.desactivar(Integer.parseInt(id));
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String nombre = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
+
+            if (JOptionPane.showConfirmDialog(this, "Deseas desactivar el registro: " + nombre + "?", "Desactivar", JOptionPane.YES_NO_OPTION) == 0) {
+                resp = this.CONTROL.desactivar(Integer.parseInt(id));
                 if (resp.equals("OK")) {
                     this.mensajeOK("Registro desactivado");
                     this.listar("", false);
@@ -708,31 +727,31 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
 
     private void cboCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboCategoriaActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_cboCategoriaActionPerformed
 
     private void btnAgregarImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarImagenActionPerformed
         // TODO add your handling code here:
-        JFileChooser file=new JFileChooser();
-        int estado=file.showOpenDialog(this);
-        
-        if (estado==JFileChooser.APPROVE_OPTION) {
-            this.imagen=file.getSelectedFile().getName();
-            this.rutaOrigen=file.getSelectedFile().getAbsolutePath();
-            this.rutaDestino=this.DIRECTORIO+this.imagen;
-            
-            ImageIcon image=new ImageIcon(this.rutaOrigen);
-            Icon Icono=new ImageIcon(image.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_DEFAULT));
+        JFileChooser file = new JFileChooser();
+        int estado = file.showOpenDialog(this);
+
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            this.imagen = file.getSelectedFile().getName();
+            this.rutaOrigen = file.getSelectedFile().getAbsolutePath();
+            this.rutaDestino = this.DIRECTORIO + this.imagen;
+
+            ImageIcon image = new ImageIcon(this.rutaOrigen);
+            Icon Icono = new ImageIcon(image.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_DEFAULT));
             lblImagen.setIcon(Icono);
             lblImagen.repaint();
-        } 
+        }
     }//GEN-LAST:event_btnAgregarImagenActionPerformed
 
     private void cboNumeroPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumeroPaginaActionPerformed
         // TODO add your handling code here:
-        if (this.primeraCarga=false) {
+        if (this.primeraCarga = false) {
             this.listar("", true);
-        } 
+        }
     }//GEN-LAST:event_cboNumeroPaginaActionPerformed
 
     private void cboTotalPorPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTotalPorPaginaActionPerformed
@@ -744,6 +763,16 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
 
+    private void btnReporteArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteArticulosActionPerformed
+        // TODO add your handling code here:
+        this.CONTROL.reporteArticulos();
+    }//GEN-LAST:event_btnReporteArticulosActionPerformed
+
+    private void btnReporteArticulos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteArticulos1ActionPerformed
+        // TODO add your handling code here:
+        this.CONTROL.ejecutarReporte();
+    }//GEN-LAST:event_btnReporteArticulos1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActivar;
@@ -754,6 +783,8 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnReporteArticulos;
+    private javax.swing.JButton btnReporteArticulos1;
     private javax.swing.JComboBox<String> cboCategoria;
     private javax.swing.JComboBox<String> cboNumeroPagina;
     private javax.swing.JComboBox<String> cboTotalPorPagina;
@@ -784,16 +815,17 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPrecioVenta;
     private javax.swing.JTextField txtStock;
     // End of variables declaration//GEN-END:variables
-    class FondoPanel extends JPanel{
+    class FondoPanel extends JPanel {
+
         private Image imagen;
-        
+
         @Override
-        public void paint(Graphics g){
-            imagen = new ImageIcon(getClass().getResource("/Recursos/categoriaFondo.png")).getImage(); 
+        public void paint(Graphics g) {
+            imagen = new ImageIcon(getClass().getResource("/Recursos/categoriaFondo.png")).getImage();
             g.drawImage(imagen, 0, 0, getWidth(), getHeight(), this);
-            
+
             setOpaque(false);
-            
+
             super.paint(g);
         }
     }

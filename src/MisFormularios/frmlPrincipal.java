@@ -39,7 +39,7 @@ private void cargarOpcionesMenu(){
             btnArticulos.setEnabled(true);
             btnProovedores.setEnabled(true);            
             btnIngresos.setEnabled(true); 
-            btnRoles.setEnabled(false);
+            btnRoles.setEnabled(true);
             btnClientes.setEnabled(true);
             btnVentas.setEnabled(true);
             btnRoles.setEnabled(true);
@@ -70,12 +70,6 @@ private void cargarOpcionesMenu(){
             btnUsuarios.setEnabled(false);
             btnVerCompras.setEnabled(false);
             btnVerVentas.setEnabled(true);
-//            menuAlmacen.setEnabled(false);
-//            menuAcceso.setEnabled(false);
-//            menuCompras.setEnabled(false);            
-//            menuVentas.setEnabled(true);
-//            itemConsultaCompras.setEnabled(false);
-//            itemConsultaVentas.setEnabled(true);
         } else{
             btnCategorias.setEnabled(false);
             btnArticulos.setEnabled(false);
