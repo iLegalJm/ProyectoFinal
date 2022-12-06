@@ -1,5 +1,5 @@
 
-package Datos;
+package DAO;
 
 import Conexion.Conexion;
 import Entidades.Articulo;
@@ -30,8 +30,8 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
     public List<Articulo> listar(String texto,int totalPorPagina,int numPagina) {
         List<Articulo> registros=new ArrayList();
         try {
-            ps=cx.conectar().prepareStatement("SELECT a.id,a.categoria_id, c.nombre as categoria_nombre, a.codigo, a.nombre, a.precio_venta, a.stock, a.descripcion, a.imagen, a.activo FROM articulo a inner join categoria c ON a.categoria_id=c.id WHERE a.nombre LIKE ? ORDER BY a.id ASC LIMIT ?,?");
-            ps.setString(1,"%" + texto +"%");            
+            ps=cx.conectar().prepareStatement("call sp_listar_articulos(?, ?, ?)");
+            ps.setString(1, "%"+texto+"%");            
             ps.setInt(2, (numPagina-1)*totalPorPagina);
             ps.setInt(3, totalPorPagina);
             rs=ps.executeQuery();
@@ -121,7 +121,7 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
     public boolean insertar(Articulo obj) {
         resp=false;
         try {
-            ps=cx.conectar().prepareStatement("INSERT INTO articulo (categoria_id,codigo,nombre,precio_venta,stock,descripcion,imagen,activo) VALUES (?,?,?,?,?,?,?,1)");
+            ps=cx.conectar().prepareStatement("call sp_insertar_articulo(?, ?, ?, ?, ?, ?, ?, 1)");
             ps.setInt(1,obj.getCategoriaId());
             ps.setString(2, obj.getCodigo());
             ps.setString(3, obj.getNombre());
@@ -146,7 +146,7 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
     public boolean actualizar(Articulo obj) {
         resp = false;
         try {
-            ps = cx.conectar().prepareStatement("UPDATE articulo SET categoria_id=?, codigo=?, nombre=?, precio_venta=?, stock=?, descripcion=?, imagen=? WHERE id=?");
+            ps = cx.conectar().prepareStatement("call sp_actualizar_articulo(?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setInt(1,obj.getCategoriaId());
             ps.setString(2, obj.getCodigo());
             ps.setString(3, obj.getNombre());
@@ -192,7 +192,7 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
     public boolean activar(int id) {
         resp = false;
         try {
-            ps = cx.conectar().prepareStatement("update articulo set activo=1 where id=?");
+            ps = cx.conectar().prepareStatement("call sp_activar_articulo(?)");
             ps.setInt(1, id);
 
             if (ps.executeUpdate() > 0) {
@@ -228,8 +228,8 @@ public class ArticuloDAO implements interfaceCrudPaginado<Articulo>{
             cx.desconectar();
         }
         return totalRegistros;
-    }
-
+    }       
+    
     @Override
     public boolean existe(String texto) {
         resp = false;

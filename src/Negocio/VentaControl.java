@@ -6,15 +6,26 @@ package Negocio;
  * @author CHATARA_II 
  */
 
-import Datos.ArticuloDAO;
-import Datos.VentaDAO;
+import Conexion.Conexion;
+import DAO.ArticuloDAO;
+import DAO.VentaDAO;
 import Entidades.Articulo;
 import Entidades.DetalleVenta;
 import Entidades.Venta;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.view.JasperViewer;
 
 public class VentaControl {
     
@@ -150,4 +161,60 @@ public class VentaControl {
     public int totalMostrados(){
         return this.registrosMostrados;
     }
+    
+    public void reporteComprobante(String idventa){
+        Map p=new HashMap();
+        p.put("idventa", idventa);
+        JasperReport report;
+        JasperPrint print;
+        
+        Conexion cnn=Conexion.getInstancia();
+        
+        try {
+            report=JasperCompileManager.compileReport(new File("").getAbsolutePath()+
+                    "/src/Reportes/ReporteComrpobante.jasper");
+            print=JasperFillManager.fillReport(report, p,cnn.conectar());
+            JasperViewer view=new JasperViewer(print,false);
+            view.setTitle("Reporte de Comprobante");
+            view.setVisible(true);
+        } catch (JRException e) {
+            e.getMessage();
+        }
+    }
+    
+    
+    
+    public DefaultTableModel consultaFechas(Date fechaInicio, Date fechaFin){
+        List<Venta> lista=new ArrayList();
+        lista.addAll(DATOS.consultaFechas(fechaInicio,fechaFin));
+        
+        String[] titulos={"Id","Usuario ID","Usuario","Cliente ID","Cliente","Tipo Comprobante","Serie","Número","Fecha","Impuesto","Total","Estado"};
+        this.modeloTabla=new DefaultTableModel(null,titulos);        
+        
+        String[] registro = new String[12];
+        SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yyyy");
+        
+        this.registrosMostrados=0;
+        
+        for (Venta item:lista){
+            registro[0]=Integer.toString(item.getId());
+            registro[1]=Integer.toString(item.getUsuarioId());
+            registro[2]=item.getUsuarioNombre();
+            registro[3]=Integer.toString(item.getPersonaId());
+            registro[4]=item.getPersonaNombre();
+            registro[5]=item.getTipoComprobante();
+            registro[6]=item.getSerieComprobante();
+            registro[7]=item.getNumComprobante();
+            registro[8]=sdf.format(item.getFecha());
+            registro[9]=Double.toString(item.getImpuesto());
+            registro[10]=Double.toString(item.getTotal());
+            registro[11]=item.getEstado();
+            
+            this.modeloTabla.addRow(registro);
+            this.registrosMostrados=this.registrosMostrados+1;
+        }
+        return this.modeloTabla;
+    }
+    
+    
 }

@@ -9,7 +9,7 @@ package Negocio;
  * @author CHATARA_II 
  */
 
-import Datos.CategoriaDAO;
+import DAO.CategoriaDAO;
 import Entidades.Categoria;
 import java.util.ArrayList;
 import java.util.List;

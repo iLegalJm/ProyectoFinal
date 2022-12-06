@@ -182,11 +182,9 @@ public class frmlCategoria extends javax.swing.JInternalFrame {
         jLabel3.setText("Nombre: (*)");
 
         txtNombre.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtNombre.setForeground(new java.awt.Color(255, 255, 255));
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
-        txtDescripcion.setForeground(new java.awt.Color(255, 255, 255));
         txtDescripcion.setRows(5);
         jScrollPane2.setViewportView(txtDescripcion);
 

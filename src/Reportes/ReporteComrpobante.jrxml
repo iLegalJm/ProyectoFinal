@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a80c1802-ca11-45ca-9f5f-594193715389">
-	<property name="ireport.zoom" value="1.3310000000000004"/>
-	<property name="ireport.x" value="75"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="2352db31-293a-4e80-b499-efd192d24fc7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<queryString language="SQL">
+	<parameter name="idventa" class="java.lang.String"/>
+	<queryString>
 		<![CDATA[SELECT
      venta.`tipo_comprobante` AS venta_tipo_comprobante,
      venta.`serie_comprobante` AS venta_serie_comprobante,
@@ -27,7 +28,8 @@ FROM
      `articulo` articulo INNER JOIN `detalle_venta` detalle_venta ON articulo.`id` = detalle_venta.`articulo_id`
      INNER JOIN `venta` venta ON detalle_venta.`venta_id` = venta.`id`
      INNER JOIN `persona` persona ON venta.`persona_id` = persona.`id`
-     INNER JOIN `usuario` usuario ON venta.`usuario_id` = usuario.`id`]]>
+     INNER JOIN `usuario` usuario ON venta.`usuario_id` = usuario.`id`
+where venta.`id` = $P{idventa}]]>
 	</queryString>
 	<field name="venta_tipo_comprobante" class="java.lang.String"/>
 	<field name="venta_serie_comprobante" class="java.lang.String"/>
@@ -232,14 +234,9 @@ FROM
 				<textFieldExpression><![CDATA[$F{detalle_venta_precio}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="c18f3eb9-6001-4aa3-98e4-b5ce1210c78e" x="355" y="0" width="85" height="20"/>
+				<reportElement uuid="c18f3eb9-6001-4aa3-98e4-b5ce1210c78e" x="355" y="0" width="75" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{detalle_venta_descuento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="a2e483df-0b99-43aa-b51f-b3e040461a2b" x="455" y="0" width="67" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[($F{detalle_venta_precio}*$F{detalle_venta_cantidad})-$F{detalle_venta_descuento}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

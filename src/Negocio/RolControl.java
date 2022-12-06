@@ -6,7 +6,7 @@
 
 package Negocio;
 
-import Datos.RolDAO;
+import DAO.RolDAO;
 import Entidades.Rol;
 import java.util.ArrayList;
 import java.util.List;

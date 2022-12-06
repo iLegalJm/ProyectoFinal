@@ -1,7 +1,7 @@
 
 package Negocio;
 
-import Datos.PersonaDAO;
+import DAO.PersonaDAO;
 import Entidades.Persona;
 import java.util.ArrayList;
 import java.util.List;

@@ -122,7 +122,7 @@ public class frmlVenta extends javax.swing.JInternalFrame {
                     Double descuentoD = Double.parseDouble((String) getValueAt(row, 6));
                     if (cantD != null && precioD != null) {
                         //format, % todo el entero.2f es dos decimales
-                        return String.format("%.2f", (cantD * precioD)-descuentoD);
+                        return String.format("%.2f", (cantD * precioD) - descuentoD);
                     } else {
                         return 0;
                     }
@@ -135,8 +135,8 @@ public class frmlVenta extends javax.swing.JInternalFrame {
                 super.setValueAt(aValue, row, col);
                 try {
                     int cantD = Integer.parseInt((String) getValueAt(row, 4));
-                    int stockD = Integer.parseInt((String)getValueAt(row, 3));
-                    if (cantD>stockD) {
+                    int stockD = Integer.parseInt((String) getValueAt(row, 3));
+                    if (cantD > stockD) {
                         super.setValueAt(stockD, row, 4);
                         mensajeError("La cantidad a vender no puede superar el stock: Como maximos puede vender, " + stockD);
                     }
@@ -149,12 +149,12 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         };
 
         //Establezco los titulos
-        modeloDetalles.setColumnIdentifiers(new Object[]{"id", "Codigo", " Articulo", "Stock","Cantidad", "Precio", "Descuento", "SubTotal"});
+        modeloDetalles.setColumnIdentifiers(new Object[]{"id", "Codigo", " Articulo", "Stock", "Cantidad", "Precio", "Descuento", "SubTotal"});
         tablaDetalles.setModel(modeloDetalles);
     }
 
     public void agregarDetalles(String id, String codigo, String nombre, String stock,
-                                String precio, String descuento) {
+            String precio, String descuento) {
         String idTemporal;
         boolean existeDetalle = false;
 
@@ -169,27 +169,27 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         if (existeDetalle) {
             this.mensajeError("El articulo a sido agregado");
         } else {                              //Aca es doble precio porque al inicio ese es el sub total
-            this.modeloDetalles.addRow(new Object[]{id, codigo, nombre, stock, "1", precio, 
-                                        descuento, precio});
+            this.modeloDetalles.addRow(new Object[]{id, codigo, nombre, stock, "1", precio,
+                descuento, precio});
             this.calcularTotales();
         }
     }
 
-    private void obtenerNumero(){
-        String tipoComprobante = (String)cboTipoComprobante.getSelectedItem();
+    private void obtenerNumero() {
+        String tipoComprobante = (String) cboTipoComprobante.getSelectedItem();
         String serieComprobante = this.CONTROL.ultimoSerie(tipoComprobante);
         String numComprobante = this.CONTROL.ultimoNumero(tipoComprobante, serieComprobante);
-        
+
         txtSerieComprobante.setText(serieComprobante);
         if (numComprobante.equals("")) {
             txtNumComprobante.setText("");
-        } else{
+        } else {
             int num;
-            num=Integer.parseInt(numComprobante)+1;
+            num = Integer.parseInt(numComprobante) + 1;
             txtNumComprobante.setText(Integer.toString(num));
-        }        
+        }
     }
-    
+
     private void calcularTotales() {
         double total = 0; //total del precio
         double subTotal;
@@ -213,18 +213,18 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         txtTotalImpuesto.setText(String.format("%.2f", total - subTotal));
     }
 
-    private void limpiar() {        
+    private void limpiar() {
         txtIdCliente.setText("");
         txtSerieComprobante.setText("");
         txtNumComprobante.setText("");
         txtImpuesto.setText("0.18");
-        
+
         this.accion = "guardar";
-        
+
         txtTotal.setText("0.00");
         txtSubTotal.setText("0.00");
         txtTotalImpuesto.setText("0.00");
-        this.crearDetalles();        
+        this.crearDetalles();
         btnGuardar.setVisible(true);
     }
 
@@ -260,6 +260,7 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         jLabel11 = new javax.swing.JLabel();
         cboTotalPorPagina = new javax.swing.JComboBox<>();
         btnVerVentas = new javax.swing.JButton();
+        btnReporteComprobante = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         btnGuardar = new javax.swing.JButton();
@@ -373,6 +374,14 @@ public class frmlVenta extends javax.swing.JInternalFrame {
             }
         });
 
+        btnReporteComprobante.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnReporteComprobante.setText("Reporte");
+        btnReporteComprobante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteComprobanteActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -404,6 +413,8 @@ public class frmlVenta extends javax.swing.JInternalFrame {
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(btnNuevo)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnReporteComprobante, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
                             .addComponent(btnVerVentas))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 947, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(179, Short.MAX_VALUE))
@@ -417,7 +428,8 @@ public class frmlVenta extends javax.swing.JInternalFrame {
                     .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar)
                     .addComponent(btnNuevo)
-                    .addComponent(btnVerVentas))
+                    .addComponent(btnVerVentas)
+                    .addComponent(btnReporteComprobante))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
@@ -736,7 +748,7 @@ public class frmlVenta extends javax.swing.JInternalFrame {
 
     private void cboNumeroPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumeroPaginaActionPerformed
         // TODO add your handling code here:
-        if (this.primeraCarga = false) {
+        if (this.primeraCarga == false) {
             this.listar("", true);
         }
     }//GEN-LAST:event_cboNumeroPaginaActionPerformed
@@ -787,10 +799,10 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         }
 
         String resp = "";
-                                                                                //para converitr un cboxmodel a texto usamos el cast del String
-        resp=this.CONTROL.insertar(Integer.parseInt(txtIdCliente.getText()), 
-                (String)cboTipoComprobante.getSelectedItem(), txtSerieComprobante.getText(), 
-                txtNumComprobante.getText(), Double.parseDouble(txtImpuesto.getText()), 
+        //para converitr un cboxmodel a texto usamos el cast del String
+        resp = this.CONTROL.insertar(Integer.parseInt(txtIdCliente.getText()),
+                (String) cboTipoComprobante.getSelectedItem(), txtSerieComprobante.getText(),
+                txtNumComprobante.getText(), Double.parseDouble(txtImpuesto.getText()),
                 Double.parseDouble(txtTotal.getText()), modeloDetalles);
         if (resp.equals("OK")) {
             this.mensajeOK("Registrado correctamente");
@@ -843,7 +855,7 @@ public class frmlVenta extends javax.swing.JInternalFrame {
                 if (objArti == null) {
                     this.mensajeError("No existe un articulo con ese codigo");
                 } else {
-                    this.agregarDetalles(Integer.toString(objArti.getId()), objArti.getCodigo(), objArti.getNombre(), Integer.toString(objArti.getStock()),Double.toString(objArti.getPrecioVenta()), "0");
+                    this.agregarDetalles(Integer.toString(objArti.getId()), objArti.getCodigo(), objArti.getNombre(), Integer.toString(objArti.getStock()), Double.toString(objArti.getPrecioVenta()), "0");
                 }
             }
         } else {
@@ -862,31 +874,31 @@ public class frmlVenta extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnQuitarActionPerformed
 
     private void btnVerVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerVentasActionPerformed
-        if(tablaListado.getSelectedRowCount()==1){
-            String id=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
-            String idProovedor=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 3));
-            String nombreProovedor=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
-            String tipoComprobante=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 5));
-            String serie=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 6));
-            String numero=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 7));
-            String impuesto=String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 9));
-            
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            String idProovedor = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 3));
+            String nombreProovedor = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 4));
+            String tipoComprobante = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 5));
+            String serie = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 6));
+            String numero = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 7));
+            String impuesto = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 9));
+
             txtIdCliente.setText(idProovedor);
             txtNombreCliente.setText(nombreProovedor);
             cboTipoComprobante.setSelectedItem(tipoComprobante);
             txtSerieComprobante.setText(serie);
             txtNumComprobante.setText(numero);
             txtImpuesto.setText(impuesto);
-            
-            this.modeloDetalles=CONTROL.listarDetalles(Integer.parseInt(id));
+
+            this.modeloDetalles = CONTROL.listarDetalles(Integer.parseInt(id));
             tablaDetalles.setModel(modeloDetalles);
             this.calcularTotales();
-            
+
             tabGeneral.setEnabledAt(1, true);
             tabGeneral.setEnabledAt(0, false);
             tabGeneral.setSelectedIndex(1);
             btnGuardar.setVisible(false);
-        } else{
+        } else {
             this.mensajeError("Seleccione el ingreso a mostrar");
         }
     }//GEN-LAST:event_btnVerVentasActionPerformed
@@ -896,6 +908,15 @@ public class frmlVenta extends javax.swing.JInternalFrame {
         this.obtenerNumero();
     }//GEN-LAST:event_cboTipoComprobanteActionPerformed
 
+    private void btnReporteComprobanteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteComprobanteActionPerformed
+        // TODO add your handling code here:
+        if (tablaListado.getSelectedRowCount() == 1) {
+            String id = String.valueOf(tablaListado.getValueAt(tablaListado.getSelectedRow(), 0));
+            this.CONTROL.reporteComprobante(id);
+        } else {
+            this.mensajeError("Seleccione la venta a ver el reporte");
+        }
+    }//GEN-LAST:event_btnReporteComprobanteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnular;
@@ -904,6 +925,7 @@ public class frmlVenta extends javax.swing.JInternalFrame {
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnQuitar;
+    private javax.swing.JButton btnReporteComprobante;
     private javax.swing.JButton btnSeleccionarCliente;
     private javax.swing.JButton btnVerArticulos;
     private javax.swing.JButton btnVerVentas;

@@ -1,4 +1,4 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -10,8 +10,8 @@ package Negocio;
  */
 
 import Conexion.Conexion;
-import Datos.ArticuloDAO;
-import Datos.CategoriaDAO;
+import DAO.ArticuloDAO;
+import DAO.CategoriaDAO;
 import Entidades.Articulo;
 import Entidades.Categoria;
 import java.awt.HeadlessException;
@@ -241,16 +241,18 @@ public class ArticuloControl {
     }
     
     public void ejecutarReporte() {
+        Conexion cnn=Conexion.getInstancia(); 
+        String reportPath = "src/Reportes/reporteArticulos.jasper";
     try {
         // asumiendo que archivo es algo como reporte.jasper
         // MiClase es la clase donde se encuentra este método
-        Conexion cnn=Conexion.getInstancia();
-        InputStream reporteInputStream = ArticuloControl.class.getResourceAsStream("/src/Reportes/rptArticulo.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(reporteInputStream, null, cnn.conectar());
-        JasperViewer jView = new JasperViewer(jasperPrint, false);
-        jView.setVisible(true);
+        InputStream inputStream = JRLoader.getFileInputStream(reportPath);
+            JasperPrint jPrint = JasperFillManager.fillReport(inputStream, null, cnn.conectar());
+            JasperViewer jViewer = new JasperViewer(jPrint, false);
+            jViewer.setTitle("Personas registradas");            
+            jViewer.setVisible(true);
     } catch(JRException e) {
         JOptionPane.showMessageDialog(null, e.getMessage());
+        }
     }
-}
 }

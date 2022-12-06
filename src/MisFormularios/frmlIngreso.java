@@ -5,6 +5,7 @@ import Negocio.IngresoControl;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -91,7 +92,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
     private void crearDetalles() {
 
-        modeloDetalles = new DefaultTableModel() {
+        modeloDetalles = new DefaultTableModel() {                   
             @Override
             public boolean isCellEditable(int fila, int columna) {
                 if (columna == 3) {
@@ -102,7 +103,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                 }
                 return columna == 3;
             }
-
+                       
             @Override
             public Object getValueAt(int row, int col) {
                 if (col == 5) {
@@ -129,7 +130,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
                 calcularTotales();
                 fireTableDataChanged();
             }
-        };
+        };        
 
         //Establezco los titulos
         modeloDetalles.setColumnIdentifiers(new Object[]{"id", "Codigo", " Articulo", "Cantidad", "Precio", "SubTotal"});
@@ -696,7 +697,7 @@ public class frmlIngreso extends javax.swing.JInternalFrame {
 
     private void cboNumeroPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumeroPaginaActionPerformed
         // TODO add your handling code here:
-        if (this.primeraCarga = false) {
+        if (this.primeraCarga == false) {
             this.listar("", true);
         }
     }//GEN-LAST:event_cboNumeroPaginaActionPerformed

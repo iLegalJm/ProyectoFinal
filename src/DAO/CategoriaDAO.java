@@ -1,5 +1,5 @@
 
-package Datos;
+package DAO;
 
 import datosInterfaces.interfaceCrudSimple;
 import Conexion.Conexion;

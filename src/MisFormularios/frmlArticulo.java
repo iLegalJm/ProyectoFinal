@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -91,7 +92,9 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         } else {
             tablaListado.setModel(this.CONTROL.listar(texto, this.totalPorPagina, 1));
         }
-
+        
+        TableRowSorter orden= new TableRowSorter(tablaListado.getModel());
+        tablaListado.setRowSorter(orden);
         lblRegistros.setText("Mostrando " + this.CONTROL.totalMostrados() + " registros de un total de " + this.CONTROL.total() + ".");
         this.ocultarColumnas();
     }
@@ -370,7 +373,6 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
-        txtDescripcion.setForeground(new java.awt.Color(255, 255, 255));
         txtDescripcion.setRows(5);
         jScrollPane2.setViewportView(txtDescripcion);
 
@@ -400,7 +402,6 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         jLabel5.setText("(*) Indica que el campo es obligatorio.");
 
         cboCategoria.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
-        cboCategoria.setForeground(new java.awt.Color(255, 255, 255));
         cboCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboCategoriaActionPerformed(evt);
@@ -411,7 +412,6 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         jLabel6.setText("Categoria: (*)");
 
         txtNombre.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
-        txtNombre.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel7.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         jLabel7.setText("PrecioVenta:(*)");
@@ -423,10 +423,8 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         jLabel9.setText("Stock: (*)");
 
         txtPrecioVenta.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
-        txtPrecioVenta.setForeground(new java.awt.Color(255, 255, 255));
 
         txtStock.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
-        txtStock.setForeground(new java.awt.Color(255, 255, 255));
 
         lblImagen.setBackground(new java.awt.Color(255, 255, 255));
         lblImagen.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
@@ -445,7 +443,6 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
         jLabel12.setText("Codigo: (*)");
 
         txtCodigo.setFont(new java.awt.Font("Roboto Light", 1, 12)); // NOI18N
-        txtCodigo.setForeground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -749,7 +746,7 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
 
     private void cboNumeroPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumeroPaginaActionPerformed
         // TODO add your handling code here:
-        if (this.primeraCarga = false) {
+        if (this.primeraCarga == false) {
             this.listar("", true);
         }
     }//GEN-LAST:event_cboNumeroPaginaActionPerformed
@@ -770,7 +767,7 @@ public class frmlArticulo extends javax.swing.JInternalFrame {
 
     private void btnReporteArticulos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteArticulos1ActionPerformed
         // TODO add your handling code here:
-        this.CONTROL.ejecutarReporte();
+        this.CONTROL.reporteArticulosBarras();
     }//GEN-LAST:event_btnReporteArticulos1ActionPerformed
 
 

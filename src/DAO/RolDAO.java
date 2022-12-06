@@ -5,7 +5,7 @@
  * @author CHATARA_II
  */
 
-package Datos;
+package DAO;
 
 import Conexion.Conexion;
 import Entidades.Rol;

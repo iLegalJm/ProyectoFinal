@@ -595,7 +595,7 @@ public class frmlUsuario extends javax.swing.JInternalFrame {
 
     private void cboNumeroPaginaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumeroPaginaActionPerformed
         // TODO add your handling code here:
-        if (this.primeraCarga=false) {
+        if (this.primeraCarga==false) {
             this.listar("", true);
         } 
     }//GEN-LAST:event_cboNumeroPaginaActionPerformed

@@ -466,9 +466,9 @@ class fondoDesktop extends JDesktopPane{
 
     private void btnVerVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerVentasActionPerformed
         // TODO add your handling code here:
-//        frmlProovedor frml=new frmlProovedor();
-//        escritorio.add(frml);
-//        frml.setVisible(true);
+        frmlConsultaVentasFecha frml=new frmlConsultaVentasFecha();
+        escritorio.add(frml);
+        frml.setVisible(true);
     }//GEN-LAST:event_btnVerVentasActionPerformed
 
     private void btnArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticulosActionPerformed
@@ -515,9 +515,9 @@ class fondoDesktop extends JDesktopPane{
 
     private void btnVerComprasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerComprasActionPerformed
         // TODO add your handling code here:
-//        frmlProovedor frml=new frmlProovedor();
-//        escritorio.add(frml);
-//        frml.setVisible(true);
+        frmlConsultaIngresosFecha frml=new frmlConsultaIngresosFecha();
+        escritorio.add(frml);
+        frml.setVisible(true);
     }//GEN-LAST:event_btnVerComprasActionPerformed
 
     private void btnCategoriasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCategoriasMouseEntered

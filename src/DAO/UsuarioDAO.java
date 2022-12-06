@@ -1,38 +1,38 @@
 
-package Datos;
+package DAO;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import Conexion.Conexion;
 import datosInterfaces.interfaceCrudPaginado;
-import Entidades.Persona;
+import Entidades.Usuario;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-public class PersonaDAO implements interfaceCrudPaginado<Persona> {
+public class UsuarioDAO implements interfaceCrudPaginado<Usuario> {
     private final Conexion CON;
     private PreparedStatement ps;
     private ResultSet rs;
     private boolean resp;
     
-    public PersonaDAO(){
+    public UsuarioDAO(){
         CON=Conexion.getInstancia();
     }
     
     
     @Override
-    public List<Persona> listar(String texto,int totalPorPagina,int numPagina) {
-        List<Persona> registros=new ArrayList();
+    public List<Usuario> listar(String texto,int totalPorPagina,int numPagina) {
+        List<Usuario> registros=new ArrayList();
         try {
-            ps=CON.conectar().prepareStatement("SELECT p.id, p.tipo_persona, p.nombre, p.tipo_documento, p.num_documento, p.direccion, p.telefono, p.email, p.activo FROM persona p WHERE p.nombre LIKE ? ORDER BY p.id ASC LIMIT ?,?");
+            ps=CON.conectar().prepareStatement("SELECT u.id, u.rol_id, r.nombre as rol_nombre, u.nombre, u.tipo_documento, u.num_documento, u.direccion, u.telefono, u.email, u.clave, u.activo FROM usuario u inner join rol r ON u.rol_id=r.id WHERE u.nombre LIKE ? ORDER BY u.id ASC LIMIT ?,?");
             ps.setString(1,"%" + texto +"%");            
             ps.setInt(2, (numPagina-1)*totalPorPagina);
             ps.setInt(3, totalPorPagina);
             rs=ps.executeQuery();
             while(rs.next()){
-                registros.add(new Persona(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8), rs.getBoolean(9)));
+                registros.add(new Usuario(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9),rs.getString(10),rs.getBoolean(11)));
             }
             ps.close();
             rs.close();
@@ -46,17 +46,15 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
         return registros;
     }
     
-    public List<Persona> listarTipo(String texto,int totalPorPagina,int numPagina, String tipoPersona) {
-        List<Persona> registros=new ArrayList();
+    public Usuario login(String email, String clave){
+        Usuario usuario=null;
         try {
-            ps=CON.conectar().prepareStatement("SELECT p.id, p.tipo_persona, p.nombre, p.tipo_documento, p.num_documento, p.direccion, p.telefono, p.email, p.activo FROM persona p WHERE p.nombre LIKE ? AND tipo_persona=? ORDER BY p.id ASC LIMIT ?,?");
-            ps.setString(1,"%" + texto +"%");
-            ps.setString(2, tipoPersona);
-            ps.setInt(3, (numPagina-1)*totalPorPagina);
-            ps.setInt(4, totalPorPagina);
+            ps=CON.conectar().prepareStatement("SELECT u.id, u.rol_id, r.nombre as rol_nombre, u.nombre, u.tipo_documento, u.num_documento, u.direccion, u.telefono, u.email, u.activo FROM usuario u inner join rol r ON u.rol_id=r.id WHERE u.email=? and clave=?");
+            ps.setString(1,email);            
+            ps.setString(2, clave);
             rs=ps.executeQuery();
-            while(rs.next()){
-                registros.add(new Persona(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8), rs.getBoolean(9)));
+            if (rs.next()) {
+                usuario=new Usuario(rs.getInt(1),rs.getInt(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7),rs.getString(8),rs.getString(9), rs.getBoolean(10));
             }
             ps.close();
             rs.close();
@@ -67,21 +65,22 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
             rs=null;
             CON.desconectar();
         }
-        return registros;
+        return usuario;
     }
 
     @Override
-    public boolean insertar(Persona objPersona) {
+    public boolean insertar(Usuario obj) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("INSERT INTO persona (tipo_persona,nombre,tipo_documento, num_documento, direccion, telefono, email, activo) VALUES (?,?,?,?,?,?,?,1)");
-            ps.setString(1,objPersona.getTipoPersona());
-            ps.setString(2, objPersona.getNombre());
-            ps.setString(3, objPersona.getTipoDocumento());
-            ps.setString(4, objPersona.getNumDocumento());
-            ps.setString(5, objPersona.getDireccion());
-            ps.setString(6, objPersona.getTelefono());
-            ps.setString(7, objPersona.getEmail());
+            ps=CON.conectar().prepareStatement("INSERT INTO usuario (rol_id,nombre,tipo_documento, num_documento, direccion, telefono, email, clave, activo) VALUES (?,?,?,?,?,?,?,?,1)");
+            ps.setInt(1,obj.getRolId());
+            ps.setString(2, obj.getNombre());
+            ps.setString(3, obj.getTipoDocumento());
+            ps.setString(4, obj.getNumDocumento());
+            ps.setString(5, obj.getDireccion());
+            ps.setString(6, obj.getTelefono());
+            ps.setString(7, obj.getEmail());
+            ps.setString(8, obj.getClave());
             if (ps.executeUpdate()>0){
                 resp=true;
             }
@@ -96,18 +95,19 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
     }
 
     @Override
-    public boolean actualizar(Persona obj) {
+    public boolean actualizar(Usuario obj) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("UPDATE persona SET tipo_persona=?, nombre=?, tipo_documento=?, num_documento=?, direccion=?, telefono=?, email=? WHERE id=?");
-            ps.setString(1,obj.getTipoPersona());
+            ps=CON.conectar().prepareStatement("UPDATE usuario SET rol_id=?, nombre=?, tipo_documento=?, num_documento=?, direccion=?, telefono=?, email=?, clave=? WHERE id=?");
+            ps.setInt(1,obj.getRolId());
             ps.setString(2, obj.getNombre());
             ps.setString(3, obj.getTipoDocumento());
             ps.setString(4, obj.getNumDocumento());
             ps.setString(5, obj.getDireccion());
             ps.setString(6, obj.getTelefono());
             ps.setString(7, obj.getEmail());
-            ps.setInt(8, obj.getId());
+            ps.setString(8, obj.getClave());
+            ps.setInt(9, obj.getId());
             
             if (ps.executeUpdate()>0){
                 resp=true;
@@ -126,7 +126,7 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
     public boolean desactivar(int id) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("UPDATE persona SET activo=0 WHERE id=?");
+            ps=CON.conectar().prepareStatement("UPDATE usuario SET activo=0 WHERE id=?");
             ps.setInt(1, id);
             if (ps.executeUpdate()>0){
                 resp=true;
@@ -145,7 +145,7 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
     public boolean activar(int id) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("UPDATE persona SET activo=1 WHERE id=?");
+            ps=CON.conectar().prepareStatement("UPDATE usuario SET activo=1 WHERE id=?");
             ps.setInt(1, id);
             if (ps.executeUpdate()>0){
                 resp=true;
@@ -164,7 +164,7 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
     public int total() {
         int totalRegistros=0;
         try {
-            ps=CON.conectar().prepareStatement("SELECT COUNT(id) FROM persona");            
+            ps=CON.conectar().prepareStatement("SELECT COUNT(id) FROM usuario");            
             rs=ps.executeQuery();
             
             while(rs.next()){
@@ -186,9 +186,10 @@ public class PersonaDAO implements interfaceCrudPaginado<Persona> {
     public boolean existe(String texto) {
         resp=false;
         try {
-            ps=CON.conectar().prepareStatement("SELECT nombre FROM persona WHERE nombre=?");
+            ps=CON.conectar().prepareStatement("SELECT email FROM usuario WHERE email=?");
             ps.setString(1, texto);
-            rs=ps.executeQuery();            
+            rs=ps.executeQuery();
+            rs.last();
             if(rs.getRow()>0){
                 resp=true;
             }           
