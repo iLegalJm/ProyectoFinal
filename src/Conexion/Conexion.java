@@ -24,7 +24,6 @@ public class Conexion {
     }
 
     public Connection conectar() {
-
         try {
             Class.forName(DRIVER);
             this.conex=DriverManager.getConnection(URL+BD, USER, PASSWORD);         
@@ -51,5 +50,4 @@ public class Conexion {
         }
         return instancia;
     }
-
 }
